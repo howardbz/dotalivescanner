@@ -8,13 +8,14 @@ import dota2api
 api = dota2api.Initialise("4D871C3CC56D4E987911394AF8F6C021", raw_mode=True)
 
 
-live_games_array = np.empty()
+live_games_array = np.zeros(1)
 
 # When called, function updates old live game list with new.
 # Any game that gets replaced will be recorded in unparsed_output.csv
 def update_live_games():
-
+    print(live_games_array)
     # pull game information
+    print("pulling game information")
     live_games = api.get_top_live_games()
     game_count=len(live_games['game_list'])
     new_list = []
@@ -31,22 +32,29 @@ def update_live_games():
 
     # convert to array for set comparison (assuming matchtime is unique and unchanged)
     new_array = np.asarray(new_list)
+    print("new array is")
+    print(new_array)
 
     # Return the sorted, unique values in ar1 that are not in ar2.
-    update_array = np.setdiff1d(new_array, live_games_array)
+    update_list = np.setdiff1d(new_array, live_games_array)
+    print("updated list is")
+    print(update_list)
 
     # Record new games in csv file
     for i in range(len(update_list)):
-        pd.DataFrame(update_array[i]).to_csv('unparsed_output.csv', mode='a', header=False)
+        pd.DataFrame(update_list[i]).to_csv('unparsed_output.csv', mode='a', header=False)
 
     # Update array for next function call
     live_games_array = new_array
-    print("updated since", datetime.datetime.now())
+    print("updated since")
+    print(datetime.datetime.now())
     return
 
 while True:
         try:
+            print("updating")
             update_live_games()
-            time.sleep(600)
         except:
             pass
+        print("waiting for 10 seconds")
+        time.sleep(10)
