@@ -34,7 +34,7 @@ def update_live_games():
                 new_list.append(matchid)
             # if matchid doesn't exist, is new match, put entry in next call and record in csv
             else:
-                pd.DataFrame(matchinfo).to_csv('unparsed_output.csv', mode='a', header=False)
+                pd.DataFrame(matchinfo).to_csv('unparsed_output.csv', mode='a', header=False, index=False)
                 new_list.append(matchid)
                 update_list.append(matchid)
             # if matchid existed in previous array but isn't queried, deleted from next call automatically
@@ -53,7 +53,7 @@ def update_live_games():
 
 
 def parse_games():
-        match_list = pd.read_csv("output.csv")
+        match_list = pd.read_csv("unparsed_output.csv")
         parsed_games = pd.read_csv("output_parsed.csv")
         match_len = len(match_list["Match Id"])
         parsed_len = len(parsed_games["Match Id"])

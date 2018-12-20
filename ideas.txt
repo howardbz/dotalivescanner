@@ -1,3 +1,0 @@
-Ideas for future implementation
-
-1. Comparative analysis between first item rushes on heroes. For example: PA building bfury or deso first. Winrates? Good against what lineups?
